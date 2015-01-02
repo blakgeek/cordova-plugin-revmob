@@ -2,9 +2,13 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="com.blakgeek.cordova.plugin.revmob" version="1.0.0">
     <name>RevMob Plugin</name>
-    <description>Adds RevMob support to cordova apps</description>
+    <description>Adds RevMob ad support to cordova apps</description>
     <license>Apache 2.0</license>
-    <keywords>revmob,ads,cordova,device</keywords>
+    <keywords>revmob,ad,blakgeek,sdk</keywords>
+    <author>Carlos Lawton</author>
+    <repo>https://github.com/blakgeek/cordova-plugin-revmob.git</repo>
+    <issue>https://github.com/blakgeek/cordova-plugin-revmob/issues</issue>
+
     <js-module src="www/revmob.js" name="RevMobPlugin">
         <clobbers target="RevMobPlugin" />
     </js-module>
