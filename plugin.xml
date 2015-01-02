@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="com.blakgeek.cordova.plugin.revmob" version="1.0.0">
+    <name>RevMob Plugin</name>
+    <description>Adds RevMob support to cordova apps</description>
+    <license>Apache 2.0</license>
+    <keywords>revmob,ads,cordova,device</keywords>
+    <js-module src="www/revmob.js" name="RevMobPlugin">
+        <clobbers target="RevMobPlugin" />
+    </js-module>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="RevMobPlugin">
+                <param name="ios-package" value="RevMobPlugin"/>
+            </feature>
+        </config-file>
+        <header-file src="src/ios/RevMobPlugin.h" />
+        <source-file src="src/ios/librevmob-ios-wrapper.a" framework="true" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="MediaPlayer.framework" />
+        <framework src="StoreKit.framework" />
+        <framework src="AdSupport.framework" />
+    </platform>
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="RevMobPlugin">
+                <param name="android-package" value="com.revmob.cordova.RevMobPlugin"/>
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="com.revmob.ads.fullscreen.FullscreenActivity"
+                      android:theme="@android:style/Theme.Translucent"
+                      android:configChanges="keyboardHidden|orientation">
+            </activity>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET"/>
+        </config-file>
+
+        <source-file src="src/android/revmob-android-wrapper.jar" target-dir="libs" />
+        <dependency id="com.google.playservices" url="https://github.com/MobileChromeApps/google-play-services.git" />
+    </platform>
+</plugin>
