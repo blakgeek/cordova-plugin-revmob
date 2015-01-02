@@ -14,7 +14,7 @@ cordova plugin add com.blakgeek.cordova.plugin.revmob
 <gap:plugin name="com.blakgeek.cordova.plugin.revmob" source="plugins.cordova.io"/>
 ```
 
-If you want to do it manually [see](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html#configuration).
+If you want to do it manually see the [RevMob docs](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html#configuration).
 
 ## How do I use it? ##
 See the [RevMob documentation](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html#session).  Oh and remember you don't need to explicitly include the revmob.js file because the plugin handles that for you.
