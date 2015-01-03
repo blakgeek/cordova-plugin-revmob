@@ -1,3 +1,4 @@
+
 function RevMob(appId) {
 	this.appId = appId;
 	this.TEST_DISABLED = 0;
@@ -5,8 +6,8 @@ function RevMob(appId) {
 	this.TEST_WITHOUT_ADS = 2;
 
 	this.startSession = function(successCallback, errorCallback) {
-    cordova.exec(successCallback, errorCallback, "RevMobPlugin", "startSession", [appId]);
-  }
+		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "startSession", [appId]);
+	}
 
 	this.showFullscreen = function(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showFullscreen", []);
@@ -20,8 +21,13 @@ function RevMob(appId) {
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showPopup", []);
 	}
 
-	this.showBanner = function(successCallback, errorCallback) {
-		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showBanner", []);
+	this.showBanner = function(showAtTop, successCallback, errorCallback) {
+		if(showAtTop === true) {
+			showAtTop = 'YES';
+		} else {
+			showAtTop = 'NO';
+		}
+		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showBanner", [showAtTop]);
 	}
 
 	this.hideBanner = function(successCallback, errorCallback) {
@@ -39,4 +45,8 @@ function RevMob(appId) {
 	this.setTimeoutInSeconds = function(seconds) {
 		cordova.exec(null, null, "RevMobPlugin", "setTimeoutInSeconds", [seconds]);
 	}
+}
+
+if (typeof module != 'undefined' && module.exports) {
+  module.exports = RevMob;
 }

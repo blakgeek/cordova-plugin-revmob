@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="com.blakgeek.cordova.plugin.revmob" version="1.0.0">
+        id="com.blakgeek.cordova.plugin.revmob" version="1.0.1">
     <name>RevMob Plugin</name>
     <description>Adds RevMob ad support to cordova apps</description>
     <license>Apache 2.0</license>
@@ -15,10 +15,20 @@
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="RevMobPlugin">
-                <param name="ios-package" value="RevMobPlugin"/>
+                <param name="ios-package" value="RevMobPluginEx"/>
             </feature>
         </config-file>
+        <header-file src="src/ios/RevMobPluginEx.h" />
+        <header-file src="src/ios/RevMobAdLink.h" />
+        <header-file src="src/ios/RevMobAds.h" />
+        <header-file src="src/ios/RevMobAdsDelegate.h" />
+        <header-file src="src/ios/RevMobBanner.h" />
+        <header-file src="src/ios/RevMobBannerView.h" />
+        <header-file src="src/ios/RevMobButton.h" />
+        <header-file src="src/ios/RevMobFullscreen.h" />
         <header-file src="src/ios/RevMobPlugin.h" />
+        <header-file src="src/ios/RevMobPopup.h" />
+        <source-file src="src/ios/RevMobPluginEx.m" />
         <source-file src="src/ios/librevmob-ios-wrapper.a" framework="true" />
         <framework src="SystemConfiguration.framework" />
         <framework src="MediaPlayer.framework" />

@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "RevMobAds.h"
-#import "CDVPlugin.h"
+#import <Cordova/CDV.h>
 #import "RevMobAdsDelegate.h"
 
 
