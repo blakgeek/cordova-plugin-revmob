@@ -1,6 +1,7 @@
 # RevMob Plugin For Cordova
 
-This plugin wraps the [RevMob PhoneGap Cordova SDK](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html) so you don't have to deal with all the manual installation steps.
+This plugin was originally supposed to just wrap the [RevMob PhoneGap Cordova SDK](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html) to automate the manual installation steps.
+But the banner support was lacking so I enhanced it.
 
 ## How do I install it? ##
 
@@ -19,5 +20,8 @@ If you want to do it manually see the [RevMob docs](http://sdk.revmobmobileadnet
 ## How do I use it? ##
 See the [RevMob documentation](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html#session).  Oh and remember you don't need to explicitly include the revmob.js file because the plugin handles that for you.
 
+You can also take a look at the [demo project](https://github.io/blakgeek/cordova-plugin-revmob-demo).
+
+TODO: add documentation
 
 Enjoy!

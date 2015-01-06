@@ -7,28 +7,23 @@ function RevMob(appId) {
 
 	this.startSession = function(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "startSession", [appId]);
-	}
+	};
 
 	this.showFullscreen = function(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showFullscreen", []);
-	}
+	};
 
 	this.openAdLink = function(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "openAdLink", []);
-	}
+	};
 
 	this.showPopup = function(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showPopup", []);
-	}
+	};
 
 	this.showBanner = function(showAtTop, successCallback, errorCallback) {
-		if(showAtTop === true) {
-			showAtTop = 'YES';
-		} else {
-			showAtTop = 'NO';
-		}
-		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showBanner", [showAtTop]);
-	}
+		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showBanner", [showAtTop === true]);
+	};
 
 	this.hideBanner = function(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "hideBanner", []);

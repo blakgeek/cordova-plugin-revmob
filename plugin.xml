@@ -2,15 +2,15 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="com.blakgeek.cordova.plugin.revmob" version="1.0.1">
     <name>RevMob Plugin</name>
-    <description>Adds RevMob ad support to cordova apps</description>
+    <description>Cordova plugin for RevMob ads.</description>
     <license>Apache 2.0</license>
     <keywords>revmob,ad,blakgeek,sdk</keywords>
-    <author>Carlos Lawton</author>
+    <author>Carlos "blakgeek" Lawton</author>
     <repo>https://github.com/blakgeek/cordova-plugin-revmob.git</repo>
     <issue>https://github.com/blakgeek/cordova-plugin-revmob/issues</issue>
 
     <js-module src="www/revmob.js" name="RevMobPlugin">
-        <clobbers target="RevMobPlugin" />
+        <clobbers target="RevMob" />
     </js-module>
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
@@ -38,7 +38,7 @@
     <platform name="android">
         <config-file target="config.xml" parent="/*">
             <feature name="RevMobPlugin">
-                <param name="android-package" value="com.revmob.cordova.RevMobPlugin"/>
+                <param name="android-package" value="com.blakgeek.cordova.plugin.revmob.RevMobPluginEx"/>
             </feature>
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
@@ -51,6 +51,7 @@
             <uses-permission android:name="android.permission.INTERNET"/>
         </config-file>
 
+        <source-file src="src/android/RevMobPluginEx.java" target-dir="src/com/blakgeek/cordova/plugin/revmob"/>
         <source-file src="src/android/revmob-android-wrapper.jar" target-dir="libs" />
         <dependency id="com.google.playservices" url="https://github.com/MobileChromeApps/google-play-services.git" />
     </platform>
