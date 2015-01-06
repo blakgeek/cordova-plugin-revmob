@@ -20,7 +20,7 @@ If you want to do it manually see the [RevMob docs](http://sdk.revmobmobileadnet
 ## How do I use it? ##
 See the [RevMob documentation](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html#session).  Oh and remember you don't need to explicitly include the revmob.js file because the plugin handles that for you.
 
-You can also take a look at the [demo project](https://github.io/blakgeek/cordova-plugin-revmob-demo).
+You can also take a look at the [demo project](https://github.com/blakgeek/cordova-plugin-revmob-demo).
 
 TODO: add documentation
 

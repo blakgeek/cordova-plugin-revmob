@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="com.blakgeek.cordova.plugin.revmob" version="1.0.1">
+        id="com.blakgeek.cordova.plugin.revmob" version="1.0.2">
     <name>RevMob Plugin</name>
     <description>Cordova plugin for RevMob ads.</description>
     <license>Apache 2.0</license>
