@@ -1,31 +1,42 @@
 #import <Foundation/Foundation.h>
-#import "RevMobAds.h"
 #import <Cordova/CDV.h>
-#import "RevMobAdsDelegate.h"
-
+#import <RevMobAds/RevMobAds.h>
+#import <RevMobAds/RevMobAdsDelegate.h>
 
 @interface RevMobPlugin : CDVPlugin <RevMobAdsDelegate>
 
-@property (nonatomic, strong)RevMobBanner *bannerWindow;
+- (void)startSession:(CDVInvokedUrlCommand *)command;
 
-- (void) startSession:(CDVInvokedUrlCommand*)command;
+- (void)openAdLink:(CDVInvokedUrlCommand *)command;
 
-- (void) setTestingMode:(CDVInvokedUrlCommand*)command;
+- (void)showPopupAd:(CDVInvokedUrlCommand *)command;
 
-- (void) openAdLink:(CDVInvokedUrlCommand*)command;
+- (void)showBannerAd:(CDVInvokedUrlCommand *)command;
 
-- (void) showPopup:(CDVInvokedUrlCommand*)command;
+- (void)hideBannerAd:(CDVInvokedUrlCommand *)command;
 
-- (void) showBanner:(CDVInvokedUrlCommand*)command;
+- (void)showInterstitialAd:(CDVInvokedUrlCommand *)command;
 
-- (void) hideBanner:(CDVInvokedUrlCommand*)command;
+- (void)printEnvironmentInformation:(CDVInvokedUrlCommand *)command;
 
-- (void) showFullscreen:(CDVInvokedUrlCommand*)command;
+- (void)setConnectionTimeout:(CDVInvokedUrlCommand *)command;
 
-- (void) printEnvironmentInformation:(CDVInvokedUrlCommand*)command;
+- (void)enableTestMode:(CDVInvokedUrlCommand *)command;
 
-- (void) setTimeoutInSeconds:(CDVInvokedUrlCommand*)command;
+- (void)disableTestMode:(CDVInvokedUrlCommand *)command;
 
-@property (nonatomic, strong)CDVInvokedUrlCommand *sessionCommand;
+@property(nonatomic, strong) RevMobBannerView *bannerView;
+@property(nonatomic, strong) UIView *containerView;
+@property(nonatomic) CGRect bannerFrameTopLandscape;
+@property(nonatomic) CGRect bannerFrameBottomLandscape;
+@property(nonatomic) CGRect webViewFrameTopLandscape;
+@property(nonatomic) CGRect webViewFrameBottomLandscape;
+@property(nonatomic) CGRect bannerFrameTopPortrait;
+@property(nonatomic) CGRect bannerFrameBottomPortrait;
+@property(nonatomic) CGRect webViewFrameTopPortrait;
+@property(nonatomic) CGRect webViewFrameBottomPortrait;
+@property(nonatomic) CGRect webViewFrame;
+@property(nonatomic) CGRect bannerFrame;
+@property(nonatomic, getter=isBannerAtTop) BOOL bannerAtTop;
 
 @end

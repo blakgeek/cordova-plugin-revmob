@@ -14,21 +14,12 @@
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="RevMobPlugin">
-                <param name="ios-package" value="RevMobPluginEx" />
+                <param name="ios-package" value="RevMobPlugin" />
             </feature>
         </config-file>
-        <header-file src="src/ios/RevMobPluginEx.h" />
-        <header-file src="src/ios/RevMobAdLink.h" />
-        <header-file src="src/ios/RevMobAds.h" />
-        <header-file src="src/ios/RevMobAdsDelegate.h" />
-        <header-file src="src/ios/RevMobBanner.h" />
-        <header-file src="src/ios/RevMobBannerView.h" />
-        <header-file src="src/ios/RevMobButton.h" />
-        <header-file src="src/ios/RevMobFullscreen.h" />
         <header-file src="src/ios/RevMobPlugin.h" />
-        <header-file src="src/ios/RevMobPopup.h" />
-        <source-file src="src/ios/RevMobPluginEx.m" />
-        <source-file src="src/ios/librevmob-ios-wrapper.a" framework="true" />
+        <source-file src="src/ios/RevMobPlugin.m" />
+        <framework src="src/ios/RevMobAds.framework" custom="true" />
         <framework src="SystemConfiguration.framework" />
         <framework src="MediaPlayer.framework" />
         <framework src="StoreKit.framework" />
@@ -37,7 +28,7 @@
     <platform name="android">
         <config-file target="config.xml" parent="/*">
             <feature name="RevMobPlugin">
-                <param name="android-package" value="com.blakgeek.cordova.plugin.revmob.RevMobPluginEx" />
+                <param name="android-package" value="com.blakgeek.cordova.plugin.revmob.RevMobPlugin" />
             </feature>
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
@@ -49,8 +40,8 @@
             <uses-permission android:name="android.permission.INTERNET" />
         </config-file>
 
-        <source-file src="src/android/RevMobPluginEx.java" target-dir="src/com/blakgeek/cordova/plugin/revmob" />
-        <source-file src="src/android/revmob-android-wrapper.jar" target-dir="libs" />
+        <source-file src="src/android/RevMobPlugin.java" target-dir="src/com/blakgeek/cordova/plugin/revmob" />
+        <source-file src="src/android/revmob-7.0.0.jar" target-dir="libs" />
         <dependency id="com.google.playservices" url="https://github.com/MobileChromeApps/google-play-services.git" />
     </platform>
 </plugin>
