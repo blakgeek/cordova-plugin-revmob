@@ -1,11 +1,7 @@
+function RevMob(globalAppId) {
 
-function RevMob(appId) {
-	this.appId = appId;
-	this.TEST_DISABLED = 0;
-	this.TEST_WITH_ADS = 1;
-	this.TEST_WITHOUT_ADS = 2;
-
-	this.startSession = function(successCallback, errorCallback) {
+	this.startSession = function(appId, successCallback, errorCallback) {
+		appId = appId || globalAppId;
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "startSession", [appId]);
 	};
 
@@ -27,21 +23,29 @@ function RevMob(appId) {
 
 	this.hideBanner = function(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "hideBanner", []);
-	}
+	};
 
 	this.setTestingMode = function(testingMode) {
 		cordova.exec(null, null, "RevMobPlugin", "setTestingMode", [testingMode]);
-	}
+	};
 
 	this.printEnvironmentInformation = function() {
 		cordova.exec(null, null, "RevMobPlugin", "printEnvironmentInformation", []);
-	}
+	};
 
 	this.setTimeoutInSeconds = function(seconds) {
 		cordova.exec(null, null, "RevMobPlugin", "setTimeoutInSeconds", [seconds]);
-	}
+	};
+
+	// alias functions so the common plugin can ultimately work with smoothie
+	this.init = this.startSession;
+	this.showBannerAd = this.showBanner;
+	this.hideBannerAd = this.hideBanner;
+	this.showInterstitialAd = this.showFullscreen;
 }
 
-if (typeof module != 'undefined' && module.exports) {
-  module.exports = RevMob;
+if(typeof module != 'undefined' && module.exports) {
+	module.exports = RevMob;
+	// identify the plugin as being smoothie compatible
+	module.exports.$mixable = true;
 }

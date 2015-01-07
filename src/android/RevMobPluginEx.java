@@ -58,7 +58,7 @@ public class RevMobPluginEx extends RevMobPlugin {
                     if (showAtTop != bannerAtTop) {
                         ViewGroup parent = (ViewGroup) webView.getParent();
                         parent.removeView(bannerWrapper);
-                        parent.addView(bannerWrapper, showAtTop ? 0 : 1);
+                        parent.addView(bannerWrapper, showAtTop ? 0 : parent.indexOfChild(webView));
                         bannerAtTop = showAtTop;
                     }
                     bannerWrapper.setVisibility(View.VISIBLE);
