@@ -1,7 +1,7 @@
 # RevMob Plugin For Cordova
-
+Add support for RevMob Ads to your Cordova and Phonegap based mobile apps.
 This plugin was originally supposed to just wrap the [RevMob PhoneGap Cordova SDK](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html) to automate the manual installation steps.
-But the banner support was lacking so I enhanced it.
+But the banner support was lacking so I decided to enhanced it.
 
 ## How do I install it? ##
 
