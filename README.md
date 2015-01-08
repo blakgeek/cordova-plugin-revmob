@@ -92,7 +92,7 @@ document.addEventListener('deviceready', function() {
 	});
 
 	// enable test mode without ads
-	revmob.disableTestMode(false, function() {
+	revmob.disableTestMode(function() {
 		console.log('shit just got real');
 	}, function(err) {
 		console.error('this will never ever happen');
