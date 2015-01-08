@@ -78,32 +78,20 @@ document.addEventListener('deviceready', function() {
 	});
 
 	// enable test mode with ads (defaults to true if no argument is passed)
-	revmob.enableTestMode(true, function() {
-		console.log('ready to serve up some hot and testy ads');
-	}, function(err) {
-		console.error('this will never ever happen');
-	});
+	revmob.enableTestMode(true);
 
 	// enable test mode without ads
-	revmob.enableTestMode(false, function() {
-		console.log(':( no ads will be served now');
-	}, function(err) {
-		console.error('this will never ever happen');
-	});
+	revmob.enableTestMode(false);
 
 	// enable test mode without ads
-	revmob.disableTestMode(function() {
-		console.log('shit just got real');
-	}, function(err) {
-		console.error('this will never ever happen');
-	});
+	revmob.disableTestMode();
 
-	// change the time to wait for an add to be served
-	revmob.setConnectionTimeout(90, function() {
-		console.log('super dope it worked');
-	}, function(err) {
-		console.error('this will never ever happen');
-	});
+	// change the time to wait for an add to be served (value is in seconds)
+	revmob.setConnectionTimeout(90);
+
+	// spit out a bunch data about the environment
+	revmob.printEnvironmentInformation();
+
 }, false);
 ```
 
