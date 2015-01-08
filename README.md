@@ -4,7 +4,7 @@ I created this because the official Phonegap/Cordova SDK from RevMob is let's sa
 
 ## How do I install it? ##
 
-If you're like me and using [CLI](http://cordova.apache.org/):
+If you're like me and using [Cordova CLI](http://cordova.apache.org/):
 ```
 cordova plugin add https://github.com/blakgeek/cordova-plugin-revmob
 ```
