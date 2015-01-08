@@ -26,6 +26,9 @@
 - (void)disableTestMode:(CDVInvokedUrlCommand *)command;
 
 @property(nonatomic, strong) RevMobBannerView *bannerView;
+@property(nonatomic, strong) RevMobFullscreen *interstitial;
+@property(nonatomic, assign) RevMobPopup *popupAd;
+@property(nonatomic, assign) RevMobAdLink *adLink;
 @property(nonatomic, strong) UIView *containerView;
 @property(nonatomic) CGRect bannerFrameTopLandscape;
 @property(nonatomic) CGRect bannerFrameBottomLandscape;

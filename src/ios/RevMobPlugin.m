@@ -2,8 +2,6 @@
 
 @interface RevMobPlugin ()
 
-//- (void)resizeViews;
-
 - (void)deviceOrientationChange:(NSNotification *)notification;
 
 - (void)updateViewFrames;
@@ -51,53 +49,104 @@
 
     NSString *appId = [command argumentAtIndex:0];
     NSLog(@"Starting session for appId: %@", appId);
-    [RevMobAds startSessionWithAppID:@"548bba2f85c0ffa609ba13d4"
-                  withSuccessHandler:^{
-                      // TODO: should I make sure the memory any previous RevMobAds reference is released or do nothing it already exists?
-                      self.bannerView = [[RevMobAds session] bannerView];
-                      self.bannerView.hidden = YES;
-                      [self.containerView insertSubview:self.bannerView belowSubview:self.webView];
-                  } andFailHandler:^(NSError *error) {
-                NSLog(@"Session failed to start with block %@", error.userInfo);
-            }];
+    [RevMobAds startSessionWithAppID: appId withSuccessHandler:^{
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } andFailHandler:^(NSError *error) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
 }
 
 - (void)enableTestMode:(CDVInvokedUrlCommand *)command {
 
     [RevMobAds session].testingMode = [[command argumentAtIndex:0 withDefault:@"YES"] boolValue] ? RevMobAdsTestingModeWithAds : RevMobAdsTestingModeWithoutAds;
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 - (void)disableTestMode:(CDVInvokedUrlCommand *)command {
 
     [RevMobAds session].testingMode = RevMobAdsTestingModeOff;
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 - (void)openAdLink:(CDVInvokedUrlCommand *)command {
 
-    [[RevMobAds session] openAdLinkWithDelegate: self];
+    if(self.adLink == nil) {
+        self.adLink = [[RevMobAds session] adLink];
+    }
+    [self.adLink loadWithSuccessHandler:^(RevMobAdLink *adLink) {
+        [adLink openLink];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } andLoadFailHandler:^(RevMobAdLink *adLink, NSError *error) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 - (void)showPopupAd:(CDVInvokedUrlCommand *)command {
 
-    [[RevMobAds session] showPopup];
+    if(self.popupAd == nil) {
+        self.popupAd = [[RevMobAds session] popup];
+    }
+    [self.popupAd loadWithSuccessHandler:^(RevMobPopup *popup) {
+        [popup showAd];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } andLoadFailHandler:^(RevMobPopup *popup, NSError *error) {
+
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } onClickHandler:^(RevMobPopup *popup) {
+
+        NSLog(@"Popup Clicked");
+        // TODO: fire javascript event
+    }];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 - (void)showInterstitialAd:(CDVInvokedUrlCommand *)command {
 
-    [[RevMobAds session] showFullscreen];
+    if(self.interstitial == nil) {
+       self.interstitial = [[RevMobAds session] fullscreen];
+    }
+    [self.interstitial loadWithSuccessHandler:^(RevMobFullscreen *fs) {
+        [fs showAd];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } andLoadFailHandler:^(RevMobFullscreen *fs, NSError *error) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
 }
 
 - (void)printEnvironmentInformation:(CDVInvokedUrlCommand *)command {
 
     [[RevMobAds session] printEnvironmentInformation];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 - (void)setConnectionTimeout:(CDVInvokedUrlCommand *)command {
 
     [RevMobAds session].connectionTimeout = [[command argumentAtIndex:0] intValue];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 - (void)showBannerAd:(CDVInvokedUrlCommand *)command {
+
+    if(self.bannerView == nil) {
+        self.bannerView = [[RevMobAds session] bannerView];
+        self.bannerView.hidden = YES;
+        [self.containerView insertSubview:self.bannerView belowSubview:self.webView];
+    }
 
     self.bannerAtTop = [[command argumentAtIndex:0 withDefault:@"NO"] boolValue];
 
@@ -106,13 +155,27 @@
     self.bannerView.frame = self.bannerFrame;
     self.bannerView.hidden = NO;
 
-    [self.bannerView loadAd];
+    [self.bannerView loadWithSuccessHandler:^(RevMobBannerView *banner) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } andLoadFailHandler:^(RevMobBannerView *banner, NSError *error) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } onClickHandler:^(RevMobBannerView *banner) {
+
+        NSLog(@"Banner Clicked");
+        // TODO: fire javascript event notification of the click
+    }];
 }
 
 - (void)hideBannerAd:(CDVInvokedUrlCommand *)command {
 
-    self.webView.frame = self.containerView.frame;
-    self.bannerView.hidden = YES;
+    if(self.bannerView != nil) {
+        self.webView.frame = self.containerView.frame;
+        self.bannerView.hidden = YES;
+    }
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
 #pragma mark - interal stuff
