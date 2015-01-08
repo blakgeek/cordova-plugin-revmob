@@ -29,7 +29,7 @@ document.addEventListener('deviceready', function() {
 	window.revmob = new RevMob();
 
 	// get things started by passing in your app id
-	revmob.init('<you app id>', function() {
+	revmob.init('<your app id>', function() {
 		console.log('super dope it worked');
 	}, function(err) {
 		console.error(['oh crap', err]);
