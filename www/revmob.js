@@ -24,7 +24,7 @@ function RevMob() {
 		cordova.exec(null, null, 'RevMobPlugin', 'claimBannerAdSpace', [atTop === true]);
 	};
 
-	this.releaseBannerAdSpace = function(atTop) {
+	this.releaseBannerAdSpace = function() {
 		cordova.exec(null, null, 'RevMobPlugin', 'releaseBannerAdSpace', []);
 	};
 
