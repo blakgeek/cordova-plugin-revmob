@@ -23,7 +23,7 @@ TODO: add manual installation steps
 
 ## How do I use it? ##
 
-```
+```javascript
 document.addEventListener('deviceready', function() {
 
 	window.revmob = new RevMob();
