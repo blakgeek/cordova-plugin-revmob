@@ -50,7 +50,7 @@ document.addEventListener('deviceready', function() {
 	});
 
 	// hide the banner but the keep the where it was occupied
-	revmob.hideBannerAd(true, function() {
+	revmob.hideBannerAd(false, function() {
 		console.log('now you see me now you do not');
 	}, function(err) {
 		console.error(['oh crap', err]);
