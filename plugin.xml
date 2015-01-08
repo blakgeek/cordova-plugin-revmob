@@ -11,7 +11,7 @@
     <js-module src="www/revmob.js" name="RevMobPlugin">
         <clobbers target="RevMob" />
         <clobbers target="RevMobAds" />
-        <clobbers target="window.smoothie.revmob" />
+        <clobbers target="smoothie.revmob" />
     </js-module>
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
