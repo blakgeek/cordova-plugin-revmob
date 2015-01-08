@@ -1,7 +1,6 @@
 # RevMob Plugin For Cordova
-Add support for RevMob Ads to your Cordova and Phonegap based mobile apps.
-This plugin was originally supposed to just wrap the [RevMob PhoneGap Cordova SDK](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html) to automate the manual installation steps.
-But the banner support was lacking so I decided to enhanced it.
+Adds support for RevMob Ads to your Cordova and Phonegap based mobile apps.
+I created this because the official Phonegap/Cordova SDK from RevMob is let's say lacking and requires too many manual steps.
 
 ## How do I install it? ##
 
@@ -16,13 +15,98 @@ or
 phonegap local plugin add https://github.com/blakgeek/cordova-plugin-revmob
 ```
 
-If you want to do it manually see the [RevMob docs](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html#configuration).
+TODO: add manual installation steps
+
+## WARNING: iOS Cordova Registry
+****Installing this plugin directly from Cordova Registry results in Xcode using a broken `RevMobAds.framework`, this is because the current publish procedure to NPM breaks symlinks [CB-6092](https://issues.apache.org/jira/browse/CB-6092). Please install the plugin through through the github url or re-add the `RevMobAds.framework` manually.****
+
 
 ## How do I use it? ##
-See the [RevMob documentation](http://sdk.revmobmobileadnetwork.com/phonegap_cordova.html#session).  Oh and remember you don't need to explicitly include the revmob.js file because the plugin handles that for you.
 
-You can also take a look at the [demo project](https://github.com/blakgeek/cordova-plugin-revmob-demo).
+```
+document.addEventListener('deviceready', function() {
 
-TODO: add documentation
+	window.revmob = new RevMob();
+
+	// get things started by passing in you app id
+	revmob.init('<you app id>', function() {
+		console.log('super dope it worked');
+	}, function(err) {
+		console.error(['oh crap', err]);
+	});
+
+	// show a banner at the top the screen (if no arguments is passed it will default showing at the bottom)
+	revmob.showBannerAd(true, function() {
+		console.log('oh snap I got a banner at the bottom');
+	}, function(err) {
+		console.error(['oh crap', err]);
+	});
+
+	// show a banner at the bottom of the screen
+	revmob.showBannerAd(false, function() {
+		console.log('what what see the banner at the bottom');
+	}, function(err) {
+		console.error(['oh crap', err]);
+	});
+
+	// hide the banner
+	revmob.hideBannerAd(function() {
+		console.log('now you see me now you do not');
+	}, function(err) {
+		console.error(['oh crap', err]);
+	});
+
+	// show and interstitial
+	revmob.showInterstitialAd(function() {
+		console.log('now that is a big ole interstitial');
+	}, function(err) {
+		console.error(['oh crap', err]);
+	});
+
+	// show a popup ad
+	revmob.showPopupAd(function() {
+		console.log('pop!);
+	}, function(err) {
+		console.error(['oh crap', err]);
+	});
+
+	// open an ad link (useful if want to tightly integrate ads into your UI)
+	revmob.openAdLink(function() {
+		console.log('we ya link bredren');
+	}, function(err) {
+		console.error(['oh crap', err]);
+	});
+
+	// enable test mode with ads (defaults to true if no argument is passed)
+	revmob.enableTestMode(true, function() {
+		console.log('ready to serve up some hot and testy ads');
+	}, function(err) {
+		console.error('this will never ever happen');
+	});
+
+	// enable test mode without ads
+	revmob.enableTestMode(false, function() {
+		console.log(':( no ads will be served now');
+	}, function(err) {
+		console.error('this will never ever happen');
+	});
+
+	// enable test mode without ads
+	revmob.disableTestMode(false, function() {
+		console.log('shit just got real');
+	}, function(err) {
+		console.error('this will never ever happen');
+	});
+
+	// change the time to wait for an add to be served
+	revmob.setConnectionTimeout(90, function() {
+		console.log('super dope it worked');
+	}, function(err) {
+		console.error('this will never ever happen');
+	});
+}, false);
+```
+
+For a full working example see the [demo project](https://github.com/blakgeek/cordova-plugin-revmob-demo).
 
 Enjoy!
