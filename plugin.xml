@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="com.blakgeek.cordova.plugin.revmob" version="1.0.6">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="com.blakgeek.cordova.plugin.revmob" version="1.0.7evv">
     <name>RevMob Plugin</name>
     <description>Cordova plugin for RevMob ads.</description>
     <license>Apache 2.0</license>
@@ -10,6 +10,8 @@
 
     <js-module src="www/revmob.js" name="RevMobPlugin">
         <clobbers target="RevMob" />
+        <clobbers target="RevMobAds" />
+        <clobbers target="window.smoothie.revmob" />
     </js-module>
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
