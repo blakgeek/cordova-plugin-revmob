@@ -3,7 +3,7 @@
 #import <RevMobAds/RevMobAds.h>
 #import <RevMobAds/RevMobAdsDelegate.h>
 
-@interface RevMobPlugin : CDVPlugin <RevMobAdsDelegate>
+@interface RevMobPlugin : CDVPlugin
 
 - (void)startSession:(CDVInvokedUrlCommand *)command;
 

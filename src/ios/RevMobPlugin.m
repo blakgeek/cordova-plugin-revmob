@@ -53,7 +53,7 @@
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } andFailHandler:^(NSError *error) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
 }
@@ -82,7 +82,7 @@
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } andLoadFailHandler:^(RevMobAdLink *adLink, NSError *error) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -99,8 +99,7 @@
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } andLoadFailHandler:^(RevMobPopup *popup, NSError *error) {
-
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } onClickHandler:^(RevMobPopup *popup) {
 
@@ -121,7 +120,7 @@
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } andLoadFailHandler:^(RevMobFullscreen *fs, NSError *error) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
 }
@@ -159,7 +158,7 @@
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } andLoadFailHandler:^(RevMobBannerView *banner, NSError *error) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:error];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     } onClickHandler:^(RevMobBannerView *banner) {
 
@@ -215,49 +214,4 @@
         }
     }
 }
-
-
-#pragma mark - RevMobAdsDelegate
-// TODO: fire javascript events when these various actions occur
-- (void)revmobAdDidFailWithError:(NSError *)error {
-
-    NSLog(@"Ad Load Error: %@", error);
-}
-
-- (void)revmobSessionIsStarted {
-
-    NSLog(@"Session started");
-}
-
-- (void)revmobSessionNotStartedWithError:(NSError *)error {
-    NSLog(@"Session Start Error: %@", error);
-}
-
-- (void)revmobAdDidReceive {
-    NSLog(@"Ad Recieved");
-}
-
-- (void)revmobAdDisplayed {
-
-    NSLog(@"Ad Displayed");
-}
-
-- (void)revmobUserClickedInTheAd {
-    NSLog(@"Ad clicked");
-}
-
-- (void)revmobUserClosedTheAd {
-
-    NSLog(@"Ad closed");
-}
-
-- (void)installDidReceive {
-    NSLog(@"Install received.");
-}
-
-- (void)installDidFail {
-
-    NSLog(@"Install failed");
-}
-
 @end
