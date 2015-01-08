@@ -65,7 +65,7 @@ document.addEventListener('deviceready', function() {
 
 	// show a popup ad
 	revmob.showPopupAd(function() {
-		console.log('pop!);
+		console.log('pop!');
 	}, function(err) {
 		console.error(['oh crap', err]);
 	});
