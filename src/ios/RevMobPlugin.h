@@ -25,6 +25,10 @@
 
 - (void)disableTestMode:(CDVInvokedUrlCommand *)command;
 
+- (void)claimBannerAdSpace:(CDVInvokedUrlCommand *)command;
+
+- (void)releaseBannerAdSpace:(CDVInvokedUrlCommand *)command;
+
 @property(nonatomic, strong) RevMobBannerView *bannerView;
 @property(nonatomic, strong) RevMobFullscreen *interstitial;
 @property(nonatomic, assign) RevMobPopup *popupAd;

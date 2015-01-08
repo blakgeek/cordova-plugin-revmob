@@ -61,16 +61,16 @@ public class RevMobPlugin extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
         if ("showBannerAd".equals(action)) {
-            
+
             showBannerAd(args, callbackContext);
         } else if ("hideBannerAd".equals(action)) {
-            
+
             hideBannerAd(callbackContext);
         } else if ("startSession".equals(action)) {
-            
+
             initializeRevMob(args, callbackContext);
         } else if ("openAdLink".equals(action)) {
-            
+
             openAdLink(callbackContext);
         } else if ("showPopupAd".equals(action)) {
 
@@ -85,13 +85,21 @@ public class RevMobPlugin extends CordovaPlugin {
 
             setConnectionTimeout(args, callbackContext);
         } else if ("enableTestMode".equals(action)) {
-            
+
             enableTestMode(args, callbackContext);
         } else if ("disableTestMode".equals(action)) {
-            
+
             disableTestMode(callbackContext);
+        } else if ("claimBannerAdSpace".equals(action)) {
+
+            // TODO: implement code to claim space
+
+        } else if ("releaseBannerAdSpace".equals(action)) {
+
+            // TODO: implement code to release space
+
         } else {
-            
+
             return false;
         }
 
@@ -280,7 +288,7 @@ public class RevMobPlugin extends CordovaPlugin {
         }
     }
 
-    private class SessionRevMobAdListener  implements RevMobAdsListener {
+    private class SessionRevMobAdListener implements RevMobAdsListener {
 
         private CallbackContext callbackContext;
 

@@ -49,10 +49,10 @@
 
     NSString *appId = [command argumentAtIndex:0];
     NSLog(@"Starting session for appId: %@", appId);
-    [RevMobAds startSessionWithAppID: appId withSuccessHandler:^{
+    [RevMobAds startSessionWithAppID:appId withSuccessHandler:^{
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    } andFailHandler:^(NSError *error) {
+    }                 andFailHandler:^(NSError *error) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
@@ -74,14 +74,14 @@
 
 - (void)openAdLink:(CDVInvokedUrlCommand *)command {
 
-    if(self.adLink == nil) {
+    if (self.adLink == nil) {
         self.adLink = [[RevMobAds session] adLink];
     }
     [self.adLink loadWithSuccessHandler:^(RevMobAdLink *adLink) {
         [adLink openLink];
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    } andLoadFailHandler:^(RevMobAdLink *adLink, NSError *error) {
+    }                andLoadFailHandler:^(RevMobAdLink *adLink, NSError *error) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
@@ -91,17 +91,17 @@
 
 - (void)showPopupAd:(CDVInvokedUrlCommand *)command {
 
-    if(self.popupAd == nil) {
+    if (self.popupAd == nil) {
         self.popupAd = [[RevMobAds session] popup];
     }
     [self.popupAd loadWithSuccessHandler:^(RevMobPopup *popup) {
         [popup showAd];
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    } andLoadFailHandler:^(RevMobPopup *popup, NSError *error) {
+    }                 andLoadFailHandler:^(RevMobPopup *popup, NSError *error) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    } onClickHandler:^(RevMobPopup *popup) {
+    }                     onClickHandler:^(RevMobPopup *popup) {
 
         NSLog(@"Popup Clicked");
         // TODO: fire javascript event
@@ -112,14 +112,14 @@
 
 - (void)showInterstitialAd:(CDVInvokedUrlCommand *)command {
 
-    if(self.interstitial == nil) {
-       self.interstitial = [[RevMobAds session] fullscreen];
+    if (self.interstitial == nil) {
+        self.interstitial = [[RevMobAds session] fullscreen];
     }
     [self.interstitial loadWithSuccessHandler:^(RevMobFullscreen *fs) {
         [fs showAd];
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    } andLoadFailHandler:^(RevMobFullscreen *fs, NSError *error) {
+    }                      andLoadFailHandler:^(RevMobFullscreen *fs, NSError *error) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
@@ -141,26 +141,29 @@
 
 - (void)showBannerAd:(CDVInvokedUrlCommand *)command {
 
-    if(self.bannerView == nil) {
+    BOOL claimBannerSpace = [[command argumentAtIndex:1 withDefault:@"YES"] boolValue];
+    self.bannerAtTop = [[command argumentAtIndex:0 withDefault:@"NO"] boolValue];
+
+    if (self.bannerView == nil) {
         self.bannerView = [[RevMobAds session] bannerView];
         self.bannerView.hidden = YES;
         [self.containerView insertSubview:self.bannerView belowSubview:self.webView];
     }
 
-    self.bannerAtTop = [[command argumentAtIndex:0 withDefault:@"NO"] boolValue];
-
     [self updateViewFrames];
-    self.webView.frame = self.webViewFrame;
     self.bannerView.frame = self.bannerFrame;
+    if (claimBannerSpace) {
+        self.webView.frame = self.webViewFrame;
+    }
     self.bannerView.hidden = NO;
 
     [self.bannerView loadWithSuccessHandler:^(RevMobBannerView *banner) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    } andLoadFailHandler:^(RevMobBannerView *banner, NSError *error) {
+    }                    andLoadFailHandler:^(RevMobBannerView *banner, NSError *error) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[NSString stringWithFormat:@"%@", error]];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    } onClickHandler:^(RevMobBannerView *banner) {
+    }                        onClickHandler:^(RevMobBannerView *banner) {
 
         NSLog(@"Banner Clicked");
         // TODO: fire javascript event notification of the click
@@ -169,21 +172,36 @@
 
 - (void)hideBannerAd:(CDVInvokedUrlCommand *)command {
 
-    if(self.bannerView != nil) {
-        self.webView.frame = self.containerView.frame;
+    BOOL releaseBannerSpace = [[command argumentAtIndex:0 withDefault:@"YES"] boolValue];
+    if (releaseBannerSpace) {
+        self.webView.frame = self.webView.superview.frame;
+    }
+    if (self.bannerView != nil) {
         self.bannerView.hidden = YES;
     }
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
-#pragma mark - interal stuff
+- (void)claimBannerAdSpace:(CDVInvokedUrlCommand *)command {
+
+    self.bannerAtTop = [[command argumentAtIndex:0 withDefault:@"NO"] boolValue];
+    [self updateViewFrames];
+    self.webView.frame = self.webViewFrame;
+}
+
+- (void)releaseBannerAdSpace:(CDVInvokedUrlCommand *)command {
+
+    self.webView.frame = self.webView.superview.frame;
+}
+
+#pragma mark - internal stuff
 
 - (void)deviceOrientationChange:(NSNotification *)notification {
 
     [self updateViewFrames];
 
-    if (self.bannerView.isHidden == NO) {
+    if (!self.bannerView.isHidden) {
         self.webView.frame = self.webViewFrame;
         self.bannerView.frame = self.bannerFrame;
     }

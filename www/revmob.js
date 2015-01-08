@@ -9,12 +9,23 @@ function RevMob() {
 		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showInterstitialAd", []);
 	};
 
-	this.showBannerAd = function(showAtTop, successCallback, errorCallback) {
-		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showBannerAd", [showAtTop === true]);
+	this.showBannerAd = function(showAtTop, claimSpace, successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "showBannerAd", [
+			showAtTop === true,
+			claimSpace !== false
+		]);
 	};
 
-	this.hideBannerAd = function(successCallback, errorCallback) {
-		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "hideBannerAd", []);
+	this.hideBannerAd = function(releaseSpace, successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "RevMobPlugin", "hideBannerAd", [releaseSpace !== false]);
+	};
+
+	this.claimBannerAdSpace = function(atTop) {
+		cordova.exec(null, null, 'RevMobPlugin', 'claimBannerAdSpace', [atTop === true]);
+	};
+
+	this.releaseBannerAdSpace = function(atTop) {
+		cordova.exec(null, null, 'RevMobPlugin', 'releaseBannerAdSpace', []);
 	};
 
 	this.openAdLink = function(successCallback, errorCallback) {
