@@ -37,7 +37,7 @@ function RevMob() {
 	};
 
 	this.enableTestMode = function(withAds) {
-		cordova.exec(null, null, "RevMobPlugin", "enableTestMode", [withAds === false]);
+		cordova.exec(null, null, "RevMobPlugin", "enableTestMode", [withAds !== false]);
 	};
 
 	this.disableTestMode = function() {
