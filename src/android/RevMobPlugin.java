@@ -2,7 +2,6 @@ package com.blakgeek.cordova.plugin.revmob;
 
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -48,11 +47,10 @@ public class RevMobPlugin extends CordovaPlugin {
             @Override
             public void run() {
 
-                initializedSmoothieCup();
+                plugInBlender();
                 // TODO: deal with scaling banner for tablets
                 bannerWrapper = new RelativeLayout(cordova.getActivity());
                 bannerWrapper.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                bannerWrapper.setVisibility(View.GONE);
 
                 // set the size to the defaults so the banner can be centered
                 RelativeLayout.LayoutParams bannerLayout = new RelativeLayout.LayoutParams(dips(RevMobBanner.DEFAULT_WIDTH_IN_DIP), dips(RevMobBanner.DEFAULT_HEIGHT_IN_DIP));
@@ -74,7 +72,7 @@ public class RevMobPlugin extends CordovaPlugin {
             showBannerAd(args, callbackContext);
         } else if ("hideBannerAd".equals(action)) {
 
-            hideBannerAd(callbackContext);
+            hideBannerAd(args, callbackContext);
         } else if ("startSession".equals(action)) {
 
             initializeRevMob(args, callbackContext);
@@ -121,29 +119,36 @@ public class RevMobPlugin extends CordovaPlugin {
         // TODO: figure out how to not
         final boolean claimAdSpace = args.getBoolean(1);
 
+
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (showAtTop != bannerAtTop) {
                     bannerAtTop = showAtTop;
-                    blender.removeView(bannerWrapper);
-                    blender.addView(bannerWrapper, showAtTop ? 0 : blender.indexOfChild(webView) + 1);
-//                    bannerWrapper.setVisibility(View.VISIBLE);
-//                    bannerWrapper.bringToFront();
+                    webViewContainer.removeView(blender);
+                    webViewContainer.addView(blender, bannerAtTop ? 0 : webViewContainer.indexOfChild(webView) + 1);
                 }
 
                 blender.setVisibility(View.VISIBLE);
-                bannerAdListener.setCallbackContext(callbackContext);
-                banner.load();
             }
         });
+
+        bannerAdListener.setCallbackContext(callbackContext);
+        banner.load();
     }
 
-    private void hideBannerAd(final CallbackContext callbackContext) {
+    private void hideBannerAd(JSONArray args, final CallbackContext callbackContext) throws JSONException {
+
+        final boolean releaseAdSpace = args.getBoolean(0);
+
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                bannerWrapper.setVisibility(View.GONE);
+
+                if (releaseAdSpace) {
+                    blender.setVisibility(View.GONE);
+                }
+
                 callbackContext.success();
             }
         });
@@ -217,16 +222,12 @@ public class RevMobPlugin extends CordovaPlugin {
         return (int) (scale * value + 0.5f);
     }
 
-
-
-
-    private void initializedSmoothieCup() {
+    private void plugInBlender() {
         blender = (ViewGroup) webViewContainer.findViewWithTag("SMOOTHIE_BLENDER");
         if (blender == null) {
             blender = new FrameLayout(cordova.getActivity());
             blender.setTag("SMOOTHIE_BLENDER");
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.gravity = bannerAtTop ? Gravity.TOP : Gravity.BOTTOM;
             float density = cordova.getActivity().getResources().getDisplayMetrics().density;
             params.height = Math.round(50 * density);
             blender.setLayoutParams(params);
