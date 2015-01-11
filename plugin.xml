@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="com.blakgeek.cordova.plugin.revmob" version="1.0.7">
-    <name>RevMob Plugin</name>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="com.blakgeek.cordova.plugin.revmob" version="1.0.8">
+    <name>revmob-plugin</name>
     <description>Cordova plugin for RevMob ads.</description>
     <license>Apache 2.0</license>
     <keywords>revmob,ad,blakgeek,sdk</keywords>
@@ -28,7 +28,7 @@
         <framework src="AdSupport.framework" />
     </platform>
     <platform name="android">
-        <config-file target="config.xml" parent="/*">
+        <config-file target="res/xml/config.xml" parent="/*">
             <feature name="RevMobPlugin">
                 <param name="android-package" value="com.blakgeek.cordova.plugin.revmob.RevMobPlugin" />
             </feature>
