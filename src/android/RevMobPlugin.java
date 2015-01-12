@@ -11,6 +11,9 @@ import com.revmob.RevMob;
 import com.revmob.RevMobAdsListener;
 import com.revmob.RevMobTestingMode;
 import com.revmob.ads.banner.RevMobBanner;
+import com.revmob.ads.banner.client.BannerClientListener;
+import com.revmob.android.RevMobContext;
+import com.revmob.client.RevMobClient;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
@@ -23,6 +26,7 @@ public class RevMobPlugin extends CordovaPlugin {
     private RevMob revmob;
     private RevMobBanner banner;
     private ViewGroup bannerWrapper;
+    private BannerClientListener bannerClientListener;
     private CallbackEnableRevMobAdListener bannerAdListener;
     private SessionRevMobAdListener sessionAdListener;
     private RevMobTestingMode testMode = RevMobTestingMode.DISABLED;
@@ -38,6 +42,7 @@ public class RevMobPlugin extends CordovaPlugin {
         scale = cordova.getActivity().getResources().getDisplayMetrics().density;
         bannerAdListener = new CallbackEnableRevMobAdListener();
         banner = new RevMobBanner(cordova.getActivity(), bannerAdListener);
+        bannerClientListener = new BannerClientListener(banner, bannerAdListener);
 
         // look for the smoothie parent view
         webViewContainer = (ViewGroup) webView.getParent();
@@ -48,9 +53,11 @@ public class RevMobPlugin extends CordovaPlugin {
             public void run() {
 
                 plugInBlender();
+                plugInBlender();
                 // TODO: deal with scaling banner for tablets
                 bannerWrapper = new RelativeLayout(cordova.getActivity());
                 bannerWrapper.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                bannerWrapper.setVisibility(View.INVISIBLE);
 
                 // set the size to the defaults so the banner can be centered
                 RelativeLayout.LayoutParams bannerLayout = new RelativeLayout.LayoutParams(dips(RevMobBanner.DEFAULT_WIDTH_IN_DIP), dips(RevMobBanner.DEFAULT_HEIGHT_IN_DIP));
@@ -134,7 +141,7 @@ public class RevMobPlugin extends CordovaPlugin {
         });
 
         bannerAdListener.setCallbackContext(callbackContext);
-        banner.load();
+        RevMobClient.getInstance().fetchBanner(null, RevMobContext.toPayload(cordova.getActivity()), bannerClientListener);
     }
 
     private void hideBannerAd(JSONArray args, final CallbackContext callbackContext) throws JSONException {
@@ -149,6 +156,7 @@ public class RevMobPlugin extends CordovaPlugin {
                     blender.setVisibility(View.GONE);
                 }
 
+                bannerWrapper.setVisibility(View.VISIBLE);
                 callbackContext.success();
             }
         });
@@ -227,7 +235,7 @@ public class RevMobPlugin extends CordovaPlugin {
         if (blender == null) {
             blender = new FrameLayout(cordova.getActivity());
             blender.setTag("SMOOTHIE_BLENDER");
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             float density = cordova.getActivity().getResources().getDisplayMetrics().density;
             params.height = Math.round(50 * density);
             blender.setLayoutParams(params);
@@ -282,10 +290,11 @@ public class RevMobPlugin extends CordovaPlugin {
                 public void run() {
                     bannerWrapper.setVisibility(View.VISIBLE);
                     bannerWrapper.bringToFront();
+                    // get rid of any previous ad's views
+                    banner.removeAllViews();
                 }
             });
             banner.reportShowOrHidden();
-            callbackContext.success();
         }
 
         @Override
@@ -296,6 +305,7 @@ public class RevMobPlugin extends CordovaPlugin {
 
         @Override
         public void onRevMobAdDisplayed() {
+            callbackContext.success();
             Log.d(LOGTAG, "Ad Displayed");
         }
 
