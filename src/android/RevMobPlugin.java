@@ -53,7 +53,6 @@ public class RevMobPlugin extends CordovaPlugin {
             public void run() {
 
                 plugInBlender();
-                plugInBlender();
                 // TODO: deal with scaling banner for tablets
                 bannerWrapper = new RelativeLayout(cordova.getActivity());
                 bannerWrapper.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -156,7 +155,7 @@ public class RevMobPlugin extends CordovaPlugin {
                     blender.setVisibility(View.GONE);
                 }
 
-                bannerWrapper.setVisibility(View.VISIBLE);
+                bannerWrapper.setVisibility(View.INVISIBLE);
                 callbackContext.success();
             }
         });
