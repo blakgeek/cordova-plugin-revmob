@@ -34,6 +34,7 @@ public class RevMobPlugin extends CordovaPlugin {
     private boolean bannerAtTop = true;
     private ViewGroup blender;
     private ViewGroup webViewContainer;
+    private View webView;
 
     @Override
     protected void pluginInitialize() {
@@ -45,6 +46,11 @@ public class RevMobPlugin extends CordovaPlugin {
         bannerClientListener = new BannerClientListener(banner, bannerAdListener);
 
         // look for the smoothie parent view
+        if(super.webView instanceof View) {
+            webView = (View) super.webView;
+        } else {
+            webView = (View) super.webView.getView().getParent();
+        }
         webViewContainer = (ViewGroup) webView.getParent();
 
         // create banner view
@@ -132,7 +138,7 @@ public class RevMobPlugin extends CordovaPlugin {
                 if (showAtTop != bannerAtTop) {
                     bannerAtTop = showAtTop;
                     webViewContainer.removeView(blender);
-                    webViewContainer.addView(blender, bannerAtTop ? 0 : webViewContainer.indexOfChild(webView) + 1);
+                    webViewContainer.addView(blender, bannerAtTop ? 0 : webViewContainer.getChildCount());
                 }
 
                 blender.setVisibility(View.VISIBLE);
@@ -170,7 +176,7 @@ public class RevMobPlugin extends CordovaPlugin {
 
     private void openAdLink(CallbackContext callbackContext) {
         if (revmob != null) {
-            revmob.openAdLink(cordova.getActivity(), new CallbackEnableRevMobAdListener(callbackContext));
+            revmob.openLink(cordova.getActivity(), new CallbackEnableRevMobAdListener(callbackContext));
         } else {
             callbackContext.error("RevMob is not initialized.  Call the init function and try again.");
         }
@@ -232,18 +238,23 @@ public class RevMobPlugin extends CordovaPlugin {
     private void plugInBlender() {
         blender = (ViewGroup) webViewContainer.findViewWithTag("SMOOTHIE_BLENDER");
         if (blender == null) {
+            // make the webView stretchy
+            webView.setLayoutParams(new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+
             blender = new FrameLayout(cordova.getActivity());
             blender.setTag("SMOOTHIE_BLENDER");
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
             float density = cordova.getActivity().getResources().getDisplayMetrics().density;
             params.height = Math.round(50 * density);
             blender.setLayoutParams(params);
             blender.setVisibility(View.GONE);
-            webViewContainer.addView(blender, bannerAtTop ? 0 : webViewContainer.indexOfChild(webView) + 1);
+
+            webViewContainer.addView(blender, bannerAtTop ? 0 : webViewContainer.getChildCount());
         }
     }
 
-    class CallbackEnableRevMobAdListener implements RevMobAdsListener {
+    class CallbackEnableRevMobAdListener extends RevMobAdsListener {
 
         private CallbackContext callbackContext;
 
@@ -301,45 +312,9 @@ public class RevMobPlugin extends CordovaPlugin {
             Log.d(LOGTAG, "Ad Failed: " + s);
             callbackContext.error(s);
         }
-
-        @Override
-        public void onRevMobAdDisplayed() {
-            callbackContext.success();
-            Log.d(LOGTAG, "Ad Displayed");
-        }
-
-        @Override
-        public void onRevMobAdDismiss() {
-
-            Log.d(LOGTAG, "Ad Dismissed");
-        }
-
-        @Override
-        public void onRevMobAdClicked() {
-
-            Log.d(LOGTAG, "Ad Clicked");
-        }
-
-        @Override
-        public void onRevMobEulaIsShown() {
-
-            Log.d(LOGTAG, "Eula Shown");
-        }
-
-        @Override
-        public void onRevMobEulaWasAcceptedAndDismissed() {
-
-            Log.d(LOGTAG, "Eula Accepted");
-        }
-
-        @Override
-        public void onRevMobEulaWasRejected() {
-
-            Log.d(LOGTAG, "Eula Rejected");
-        }
     }
 
-    private class SessionRevMobAdListener implements RevMobAdsListener {
+    private class SessionRevMobAdListener extends RevMobAdsListener {
 
         private CallbackContext callbackContext;
 
@@ -357,46 +332,6 @@ public class RevMobPlugin extends CordovaPlugin {
         public void onRevMobSessionNotStarted(String s) {
             Log.d(LOGTAG, "Session Failed To Start");
             callbackContext.success("Session Failed To Start: " + s);
-
-        }
-
-        @Override
-        public void onRevMobAdReceived() {
-
-        }
-
-        @Override
-        public void onRevMobAdNotReceived(String s) {
-
-        }
-
-        @Override
-        public void onRevMobAdDisplayed() {
-
-        }
-
-        @Override
-        public void onRevMobAdDismiss() {
-
-        }
-
-        @Override
-        public void onRevMobAdClicked() {
-
-        }
-
-        @Override
-        public void onRevMobEulaIsShown() {
-
-        }
-
-        @Override
-        public void onRevMobEulaWasAcceptedAndDismissed() {
-
-        }
-
-        @Override
-        public void onRevMobEulaWasRejected() {
 
         }
     }
