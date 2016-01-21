@@ -150,14 +150,14 @@
         [self.containerView insertSubview:self.bannerView belowSubview:self.webView];
     }
 
+    [self.bannerView loadWithSuccessHandler:^(RevMobBannerView *banner) {
+
     [self updateViewFrames];
     self.bannerView.frame = self.bannerFrame;
     if (claimBannerSpace) {
         self.webView.frame = self.webViewFrame;
     }
     self.bannerView.hidden = NO;
-
-    [self.bannerView loadWithSuccessHandler:^(RevMobBannerView *banner) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }                    andLoadFailHandler:^(RevMobBannerView *banner, NSError *error) {
