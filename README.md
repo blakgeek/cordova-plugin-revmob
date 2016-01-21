@@ -6,13 +6,13 @@ I created this because the official Phonegap/Cordova SDK from RevMob is let's sa
 
 If you're like me and using [Cordova CLI](http://cordova.apache.org/):
 ```
-cordova plugin add https://github.com/blakgeek/cordova-plugin-revmob
+cordova plugin add cordova-plugin-revmob
 ```
 
 or
 
 ```
-phonegap local plugin add https://github.com/blakgeek/cordova-plugin-revmob
+phonegap local plugin add cordova-plugin-revmob
 ```
 
 TODO: add manual installation steps
