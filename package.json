@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-revmob",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Cordova plugin for RevMob ads",
   "keywords": [
     "ecosystem:cordova",
@@ -11,7 +11,6 @@
   ],
   "author": "Carlos \"blakgeek\" Lawton",
   "license": "MIT",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/blakgeek/cordova-plugin-revmob.git"
