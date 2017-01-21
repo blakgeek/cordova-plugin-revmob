@@ -5,6 +5,8 @@
 
 @interface RevMobPlugin : CDVPlugin
 
+- (void)init:(CDVInvokedUrlCommand *)command;
+
 - (void)startSession:(CDVInvokedUrlCommand *)command;
 
 - (void)openAdLink:(CDVInvokedUrlCommand *)command;
@@ -45,5 +47,11 @@
 @property(nonatomic) CGRect webViewFrame;
 @property(nonatomic) CGRect bannerFrame;
 @property(nonatomic, getter=isBannerAtTop) BOOL bannerAtTop;
-
+@property(nonatomic) BOOL sessionStarted;
+@property(nonatomic) RevMobAdsTestingMode testingMode;
+@property(nonatomic) NSUInteger timeout;
+@property(nonatomic) CDVInvokedUrlCommand *eventCallback;
+@property(nonatomic, strong) CDVInvokedUrlCommand *pendingInterstitial;
+@property(nonatomic, strong) CDVInvokedUrlCommand *pendingBanner;
+@property(nonatomic, strong) CDVInvokedUrlCommand *pendingPopup;
 @end
